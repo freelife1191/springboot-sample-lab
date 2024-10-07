@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.freelife.client.mybatis.MemberMapper">
+
+    <insert id="save" parameterType="Member" useGeneratedKeys="true"
+            keyProperty="id" keyColumn="id">
+        INSERT INTO member (name, nick_name) VALUES (#{member.name}, #{member.nickName});
+    </insert>
+
+    <select id="findAll" resultType="Member">
+        SELECT id, name, nick_name as nickName
+        from member;
+    </select>
+
+    <select id="findById" parameterType="long" resultType="Member">
+        SELECT id, name, nick_name as nickName
+        from member where id = #{id};
+    </select>
+
+    <update id="update" parameterType="Member">
+        UPDATE member
+        SET name = #{member.name}, nick_name = #{member.nickName}
+        WHERE id = #{member.id};
+    </update>
+
+    <delete id="delete" parameterType="long">
+        DELETE FROM member WHERE id = #{id};
+    </delete>
+</mapper>
