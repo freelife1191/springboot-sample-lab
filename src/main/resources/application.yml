@@ -18,10 +18,11 @@ spring:
         username: ${ADMIN_SERVER_USERNAME}
         password: ${ADMIN_SERVER_PASSWORD}
   datasource:
-    driver-class-name: org.h2.Driver
-    # 파일 기반, 로컬에 h2 db 설치 필요
+    # driver-class-name: org.h2.Driver
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    # 파일 기반, 로컬에 h2 db 설치 필요 (https://0soo.tistory.com/40)
     # url: jdbc:h2:tcp://localhost/~/sample;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=MYSQL
-    url: jdbc:h2:mem:sample;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=MYSQL
+    url: jdbc:log4jdbc:h2:mem:sample;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;DB_CLOSE_ON_EXIT=FALSE;MODE=MYSQL
     username: sa
     password:
     # driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
@@ -36,11 +37,12 @@ spring:
     # JPA는 schema-${platform}.sql과 data-${platform}.sql 파일이 있다면 실행시켜 데이터베이스 플랫폼에 맞춘 스크립트 실행이 가능하다
     # 사용할 플랫폼 정의는 spring.datasource.platform값을 따른다
     # database-platform: org.hibernate.dialect.MySQLDialect
+    database: h2
     # JPA SQL을 로그에 보여줌
-    # show-sql: true
+    show-sql: true
     # ddl-auto 속성을 사용할지 말지를 결정하는 옵션이다
     # 기본값이 false이기 JPA에 의한 자동 초기화 기능을 사용하려면 true로 바꾸고 사용한다
-    # generate-ddl: true
+    generate-ddl: true
     hibernate:
       #none: 아무것도 실행하지 않는다 (대부분의 DB에서 기본값이다)
       #create-drop: SessionFactory가 시작될 때 drop및 생성을 실행하고, SessionFactory가 종료될 때 drop을 실행한다 (in-memory DB의 경우 기본값이다)
@@ -48,10 +50,12 @@ spring:
       #update: 기존의 스키마를 유지하며 JPA에 의해 변경된 부분만 추가한다.
       #validate: 엔티티와 테이블이 정상적으로 매핑되어있는지만 검증한다.
       ddl-auto: create-drop
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
     properties:
       hibernate:
         # dialect: org.hibernate.dialect.MySQLDialect
-        show_sql: true
+        # show_sql: true
         format_sql: true
         # JPA SQL에 `로 감싸서 처리
         globally_quoted_identifiers: true
@@ -92,13 +96,19 @@ management:
     health:
       show-details: always
 
-logging:
-  # config: classpath:log4j2-spring.xml
-  charset:
-    console: UTF-8
-    file: UTF-8
-  level:
-    # default: debug
-    ROOT: info
-    de.codecentric: info
-    org.springframework.web: info
+# logging:
+#   config: classpath:logback-spring.xml
+#   charset:
+#     console: UTF-8
+#     file: UTF-8
+#   level:
+#     default: debug
+#     ROOT: info
+#     de.codecentric: info
+#     org.springframework.web: info
+#     jdbc.sqlonly: off
+#     jdbc.sqltiming: info
+#     jdbc.resultsettable: info
+#     jdbc.audit: off
+#     jdbc.resultset: off
+#     jdbc.connection: off

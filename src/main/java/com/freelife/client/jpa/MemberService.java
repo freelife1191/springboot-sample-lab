@@ -18,9 +18,7 @@ public class MemberService {
     private final MemberMapper memberMapper;
 
     public Member saveMemberJPA() {
-        Member member = new Member();
-        member.addMember("홍길동", "freelife");
-        return memberRepository.save(member);
+        return memberRepository.save(Member.generateMember());
     }
 
     @Transactional(readOnly = true)
@@ -28,26 +26,28 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
-    public void updateMemberJPA(Long id) {
+    public List<Member> updateMemberJPA(Long id) {
         Member member = memberRepository.findById(id).orElse(null);
-        if (member == null) return;
+        if (member == null) return List.of();
         memberRepository.findById(member.getId())
                 .map(m -> {
                     m.setName("홍길순");
                     m.setNickName("freelife2");
+                    m.setPassword("5678");
                     return m;
                 }).ifPresent(m -> m.updateMember(m));
+        return findMemberJPA();
     }
 
-    public void deleteMemberJPA(Long id) {
+    public List<Member> deleteMemberJPA(Long id) {
         Member member = memberRepository.findById(id).orElse(null);
-        if (member == null) return;
+        if (member == null) return List.of();
         memberRepository.delete(member);
+        return findMemberJPA();
     }
 
     public Member saveMemberMybatis() {
-        Member member = new Member();
-        member.addMember("홍길동", "freelife");
+        Member member = Member.generateMember();
         memberMapper.save(member);
         return findByIdMyabatis(member.getId());
     }
@@ -68,6 +68,7 @@ public class MemberService {
         if (member == null) return;
         member.setName("홍길순");
         member.setNickName("freelife2");
+        member.setPassword("5678");
         memberMapper.update(member);
     }
 

@@ -4,22 +4,34 @@
 
     <insert id="save" parameterType="Member" useGeneratedKeys="true"
             keyProperty="id" keyColumn="id">
-        INSERT INTO member (name, nick_name) VALUES (#{member.name}, #{member.nickName});
+        INSERT INTO member (name, nick_name, password)
+        VALUES (#{member.name},
+                #{member.nickName},
+                #{member.password, typeHandler=EncryptHandler});
     </insert>
 
-    <select id="findAll" resultType="Member">
-        SELECT id, name, nick_name as nickName
+    <resultMap id="member" type="Member">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="nickName" column="nick_name"/>
+        <result property="password" column="password" typeHandler="EncryptHandler"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="member">
+        SELECT id, name, nick_name, password
         from member;
     </select>
 
-    <select id="findById" parameterType="long" resultType="Member">
-        SELECT id, name, nick_name as nickName
+    <select id="findById" parameterType="long" resultMap="member">
+        SELECT id, name, nick_name, password
         from member where id = #{id};
     </select>
 
     <update id="update" parameterType="Member">
         UPDATE member
-        SET name = #{member.name}, nick_name = #{member.nickName}
+        SET name = #{member.name},
+            nick_name = #{member.nickName},
+            password = #{member.password, typeHandler=EncryptHandler}
         WHERE id = #{member.id};
     </update>
 
