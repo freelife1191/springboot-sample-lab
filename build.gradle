@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.3.4'
     id 'io.spring.dependency-management' version '1.1.6'
-    id 'com.vaadin' version '24.4.13'
+    // id 'com.vaadin' version '24.4.13'
 }
 
 group = 'com.freelife'
@@ -42,38 +42,51 @@ ext {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-integration'
+    // implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
     // implementation 'com.vaadin:vaadin-spring-boot-starter'
-    implementation 'de.codecentric:spring-boot-admin-starter-client'
-    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
-    implementation 'org.springframework.integration:spring-integration-http'
-    implementation 'org.springframework.integration:spring-integration-jdbc'
-    implementation 'org.springframework.integration:spring-integration-jpa'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     // developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
-    runtimeOnly 'com.h2database:h2'
-    runtimeOnly 'com.mysql:mysql-connector-j'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.3'
-    testImplementation 'org.springframework.integration:spring-integration-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
+    // Spring Integration
+    // implementation 'org.springframework.integration:spring-integration-http'
+    // implementation 'org.springframework.integration:spring-integration-jdbc'
+    // implementation 'org.springframework.boot:spring-boot-starter-integration'
+    // implementation 'org.springframework.integration:spring-integration-jpa'
+    // testImplementation 'org.springframework.integration:spring-integration-test'
+
+    // Database
+    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+
+    // JPA
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // Mybatis
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
+    testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.3'
+
+    // Actuator Admin
+    implementation 'de.codecentric:spring-boot-admin-starter-client'
+
+    // Utils
     implementation 'com.google.guava:guava:33.3.1-jre'
     implementation 'org.apache.commons:commons-collections4:4.4'
     implementation 'org.apache.commons:commons-lang3:3.17.0'
 
-    // Log 설정
+    // Swagger
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
+
+    // Log
     implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
 
-    // QueryDSL 설정
+    // QueryDSL
     // https://github.com/404-nut-pound/spring-jpa-querydsl-template
     implementation "com.querydsl:querydsl-jpa:5.1.0:jakarta"
     annotationProcessor "com.querydsl:querydsl-apt:5.1.0:jakarta"

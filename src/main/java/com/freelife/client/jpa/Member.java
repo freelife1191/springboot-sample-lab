@@ -1,25 +1,40 @@
 package com.freelife.client.jpa;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.freelife.client.jpa.converter.EncryptConverter;
+import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Getter
+@NoArgsConstructor
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
     private String name;
+    @Column(nullable = false)
     private String nickName;
+    @Convert(converter = EncryptConverter.class)
+    @Column(nullable = false)
+    private String password;
 
-    public void addMember(String name, String nickName) {
+    @Builder
+    public Member(String name, String nickName, String password) {
         this.name = name;
         this.nickName = nickName;
+        this.password = password;
+    }
+
+    public static Member generateMember() {
+        return Member.builder()
+                .name("홍길동")
+                .nickName("freelife")
+                .password("1234")
+                .build();
     }
 
     public void updateMember(Member member) {
