@@ -28,15 +28,18 @@ ext {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    // 접속 시 보안 처리
     implementation 'org.springframework.boot:spring-boot-starter-security'
+    // Spring Boot Admin Server 라이브러리
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    // Spring Boot Admin Server 라이브러리
     implementation 'de.codecentric:spring-boot-admin-starter-server'
     compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
